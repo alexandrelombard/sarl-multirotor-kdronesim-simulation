@@ -1,0 +1,89 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.skills
+
+import io.sarl.simulation.multirotor.capacities.MultirotorSimulationControlCapacity
+import fr.utbm.ktools.comm.tcp.ClientTCP
+import java.nio.ByteOrder
+
+/** 
+ * AirSim implementation of the multirotor simulation control capacity
+ * @author Alexandre Lombard
+ * 
+ */
+skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity {
+
+	val client : ClientTCP
+
+	// TODO Allow defining this parameter
+	val defaultTimeout = 5.0f
+
+	new() {
+		this("127.0.0.1", 9876)
+	}
+
+	new(ipAddress : String, port : Integer) {
+		client = new ClientTCP(ipAddress, port, 20, 100, ByteOrder.LITTLE_ENDIAN)
+	}
+	
+	override enableControl(vehicleName : String) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.enableApiControl(true, vehicleName)
+		}
+	}
+
+	override takeOff(vehicleName : String) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.takeoffAsync(defaultTimeout, vehicleName)	
+		}
+	}
+
+	override land(vehicleName : String) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.landAsync(defaultTimeout, vehicleName)		
+		}
+	}
+
+	override rotateByYawRate(vehicleName : String, yawRate : double, duration : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.rotateByYawRateAsync(yawRate as float, duration as float, vehicleName)	
+		}
+	}
+
+	override rotateToYaw(vehicleName : String, yaw : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.rotateToYawAsync(yaw as float, defaultTimeout, 5.0f, vehicleName)	
+		}
+	}
+
+	override goHome(vehicleName : String) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.goHomeAsync(defaultTimeout, vehicleName)	
+		}
+	}
+
+	override moveToPosition(vehicleName : String, x : double, y : double, z : double, velocity : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.moveToPositionAsync(x as float, y as float, z as float, velocity as float, defaultTimeout,
+//				DrivetrainType.MAX_DEGREE_OF_FREEDOM,
+//				new YawMode(), -1.0f, -1.0f, vehicleName)	
+		}
+	}
+
+	override moveByVelocity(vehicleName : String, vx : double, vy : double, vz : double, duration : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.moveByVelocityAsync(vx as float, vy as float, vz as float, duration as float,
+//				DrivetrainType.MAX_DEGREE_OF_FREEDOM, new YawMode(),
+//				vehicleName)
+		}
+	}
+}

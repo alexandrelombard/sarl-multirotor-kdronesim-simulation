@@ -1,0 +1,37 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.data
+
+import io.sarl.simulation.multirotor.perceptions.IKinematicsState
+import org.arakhne.afc.math.geometry.d3.d.Vector3d
+
+/** 
+ * Wrapper for Pose from AirSim library
+ * @author Alexandre Lombard
+ * 
+ */
+class KDroneSimKinematicsState extends Object implements IKinematicsState {
+	
+	val kinematicsState : KinematicsState
+	
+	new(kinematicsState : KinematicsState) {
+		this.kinematicsState = kinematicsState
+	}
+	
+	def getLinearVelocity : Vector3d {
+		return new Vector3d(
+			kinematicsState.linearVelocity.x,
+			kinematicsState.linearVelocity.y,
+			kinematicsState.linearVelocity.z
+		)
+	}
+	
+	def getLinearAcceleration : Vector3d {
+		return new Vector3d(
+			kinematicsState.linearAcceleration.x,
+			kinematicsState.linearAcceleration.y,
+			kinematicsState.linearAcceleration.z)
+	}
+	
+}

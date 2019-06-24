@@ -1,0 +1,55 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.skills
+
+import io.sarl.simulation.capacities.SimulationControlCapacity
+import fr.utbm.ktools.comm.tcp.ClientTCP
+import java.nio.ByteOrder
+
+/** 
+ * Simulation control capacity relying on AirSim
+ * @author Alexandre Lombard
+ * 
+ */
+skill KDroneSimSimulationControl implements SimulationControlCapacity {
+
+	val client : ClientTCP
+
+	new() {
+		this("127.0.0.1", 9876)
+	}
+
+	new(ipAddress : String, port : Integer) {
+		client = new ClientTCP(ipAddress, port, 20, 100, ByteOrder.LITTLE_ENDIAN) 
+	}
+
+	override simContinueForTime(time : Float) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.simContinueForTime(time)	
+		}
+	}
+	
+	override simPause(pause : Boolean) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.simPause(pause)	
+		}
+	}
+	
+	override simIsPaused : Boolean {
+		synchronized (this.client) {
+			// TODO
+//			return rpcLibClient.simIsPaused	
+		}
+	}
+	
+	override simPrintLogMessage(message : String, messageParam : String, severity : Integer = 0) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.simPrintLogMessage(message, messageParam, severity)
+		}
+	}
+	
+}

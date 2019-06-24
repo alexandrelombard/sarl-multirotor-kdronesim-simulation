@@ -1,0 +1,31 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.data
+
+import io.sarl.simulation.multirotor.perceptions.IPose
+import org.arakhne.afc.math.geometry.d3.d.Vector3d
+import io.sarl.math.Quaternion
+
+/** 
+ * Wrapper for Pose from AirSim library
+ * @author Alexandre Lombard
+ * 
+ */
+class KDroneSimPose extends Object implements IPose {
+	
+	val pose : Pose
+	
+	new(pose: Pose) {
+		this.pose = pose
+	}
+	
+	def getPosition : Vector3d {
+		return new Vector3d(this.pose.position.x, this.pose.position.y, this.pose.position.z)
+	}
+	
+	def getOrientation : Quaternion {
+		return new Quaternion(this.pose.orientation.w, this.pose.orientation.x, this.pose.orientation.y, this.pose.orientation.z)
+	}
+	
+}

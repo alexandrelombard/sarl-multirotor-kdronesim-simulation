@@ -1,0 +1,21 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.data
+
+import io.sarl.simulation.multirotor.perceptions.IMultirotorState
+
+/** 
+ * Wrapper for MultirotorState from AirSim library
+ * @author Alexandre Lombard
+ * 
+ */
+class KDroneSimMultirotorState extends Object implements IMultirotorState {
+	
+	val multirotorState : MultirotorState
+	
+	new(multirotorState: MultirotorState) {
+		this.multirotorState = multirotorState
+	}
+	
+}
