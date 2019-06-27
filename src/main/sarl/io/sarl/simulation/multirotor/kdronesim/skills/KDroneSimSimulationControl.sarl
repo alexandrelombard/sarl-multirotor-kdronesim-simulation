@@ -3,8 +3,8 @@
  */
 package io.sarl.simulation.multirotor.kdronesim.skills
 
+import fr.utbm.sim.comm.SimulationControlClient
 import io.sarl.simulation.capacities.SimulationControlCapacity
-import fr.utbm.ktools.comm.tcp.ClientTCP
 import java.nio.ByteOrder
 
 /** 
@@ -14,14 +14,14 @@ import java.nio.ByteOrder
  */
 skill KDroneSimSimulationControl implements SimulationControlCapacity {
 
-	val client : ClientTCP
+	val client : SimulationControlClient
 
 	new() {
 		this("127.0.0.1", 9876)
 	}
 
 	new(ipAddress : String, port : Integer) {
-		client = new ClientTCP(ipAddress, port, 20, 100, ByteOrder.LITTLE_ENDIAN) 
+		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
 	}
 
 	override simContinueForTime(time : Float) {

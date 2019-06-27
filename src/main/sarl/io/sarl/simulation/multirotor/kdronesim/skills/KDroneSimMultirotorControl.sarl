@@ -3,8 +3,9 @@
  */
 package io.sarl.simulation.multirotor.kdronesim.skills
 
+import fr.utbm.ktools.geom.Vector3
+import fr.utbm.sim.comm.SimulationControlClient
 import io.sarl.simulation.multirotor.capacities.MultirotorSimulationControlCapacity
-import fr.utbm.ktools.comm.tcp.ClientTCP
 import java.nio.ByteOrder
 
 /** 
@@ -14,7 +15,7 @@ import java.nio.ByteOrder
  */
 skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity {
 
-	val client : ClientTCP
+	val client : SimulationControlClient
 
 	// TODO Allow defining this parameter
 	val defaultTimeout = 5.0f
@@ -24,27 +25,27 @@ skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity 
 	}
 
 	new(ipAddress : String, port : Integer) {
-		client = new ClientTCP(ipAddress, port, 20, 100, ByteOrder.LITTLE_ENDIAN)
+		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
 	}
 	
 	override enableControl(vehicleName : String) {
 		synchronized (this.client) {
-			// TODO
 //			rpcLibClient.enableApiControl(true, vehicleName)
+			// Not required
 		}
 	}
 
 	override takeOff(vehicleName : String) {
 		synchronized (this.client) {
-			// TODO
-//			rpcLibClient.takeoffAsync(defaultTimeout, vehicleName)	
+//			rpcLibClient.takeoffAsync(defaultTimeout, vehicleName)
+			client.droneTakeOff(Integer.parseInt(vehicleName))	
 		}
 	}
 
 	override land(vehicleName : String) {
 		synchronized (this.client) {
-			// TODO
-//			rpcLibClient.landAsync(defaultTimeout, vehicleName)		
+// 			rpcLibClient.landAsync(defaultTimeout, vehicleName)
+			client.droneLand(Integer.parseInt(vehicleName))
 		}
 	}
 
@@ -80,10 +81,10 @@ skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity 
 
 	override moveByVelocity(vehicleName : String, vx : double, vy : double, vz : double, duration : double) {
 		synchronized (this.client) {
-			// TODO
 //			rpcLibClient.moveByVelocityAsync(vx as float, vy as float, vz as float, duration as float,
 //				DrivetrainType.MAX_DEGREE_OF_FREEDOM, new YawMode(),
 //				vehicleName)
+			client.droneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, vz))
 		}
 	}
 }

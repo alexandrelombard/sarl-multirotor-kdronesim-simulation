@@ -5,6 +5,7 @@ package io.sarl.simulation.multirotor.kdronesim.data
 
 import io.sarl.simulation.multirotor.perceptions.IKinematicsState
 import org.arakhne.afc.math.geometry.d3.d.Vector3d
+import fr.utbm.sim.perceptions.KinematicsState
 
 /** 
  * Wrapper for Pose from AirSim library

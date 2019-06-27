@@ -6,6 +6,7 @@ package io.sarl.simulation.multirotor.kdronesim.data
 import io.sarl.simulation.multirotor.perceptions.IPose
 import org.arakhne.afc.math.geometry.d3.d.Vector3d
 import io.sarl.math.Quaternion
+import fr.utbm.sim.perceptions.Pose
 
 /** 
  * Wrapper for Pose from AirSim library
@@ -25,7 +26,9 @@ class KDroneSimPose extends Object implements IPose {
 	}
 	
 	def getOrientation : Quaternion {
-		return new Quaternion(this.pose.orientation.w, this.pose.orientation.x, this.pose.orientation.y, this.pose.orientation.z)
+		// FIXME
+//		return new Quaternion(this.pose.orientation.w, this.pose.orientation.x, this.pose.orientation.y, this.pose.orientation.z)
+		return new Quaternion(1.0f, 0.0f, 0.0f, 0.0f)
 	}
 	
 }

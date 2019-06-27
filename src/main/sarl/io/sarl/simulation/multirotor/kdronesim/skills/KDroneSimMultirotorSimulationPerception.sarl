@@ -1,22 +1,22 @@
 package io.sarl.simulation.multirotor.kdronesim.skills
 
+import fr.utbm.sim.comm.SimulationControlClient
 import io.sarl.simulation.multirotor.capacities.MultirotorSimulationPerceptionCapacity
+import io.sarl.simulation.multirotor.perceptions.IKinematicsState
 import io.sarl.simulation.multirotor.perceptions.IMultirotorState
 import io.sarl.simulation.multirotor.perceptions.IPose
-import io.sarl.simulation.multirotor.perceptions.IKinematicsState
-import fr.utbm.ktools.comm.tcp.ClientTCP
 import java.nio.ByteOrder
 
 skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPerceptionCapacity {
 	
-	val client : ClientTCP
+	val client : SimulationControlClient
 
 	new() {
 		this("127.0.0.1", 9876)
 	}
 
 	new(ipAddress : String, port : Integer) {
-		client = new ClientTCP(ipAddress, port, 20, 100, ByteOrder.LITTLE_ENDIAN)
+		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
 	}
 	
 	override getMultirotorState(vehicleName : String) : IMultirotorState {
