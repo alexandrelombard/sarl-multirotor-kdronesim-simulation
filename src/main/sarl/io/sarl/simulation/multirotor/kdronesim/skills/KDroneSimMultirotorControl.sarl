@@ -21,7 +21,7 @@ skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity 
 	val defaultTimeout = 5.0f
 
 	new() {
-		this("127.0.0.1", 9876)
+		this("127.0.0.1", 9877)
 	}
 
 	new(ipAddress : String, port : Integer) {
