@@ -26,15 +26,17 @@ skill KDroneSimSimulationControl implements SimulationControlCapacity {
 
 	override simContinueForTime(time : Float) {
 		synchronized (this.client) {
-			// TODO
-//			rpcLibClient.simContinueForTime(time)	
+//			rpcLibClient.simContinueForTime(time)
+			// FIXME Take the step duration as parameter	
+			client.simulationStep()
 		}
 	}
 	
 	override simPause(pause : Boolean) {
 		synchronized (this.client) {
-			// TODO
-//			rpcLibClient.simPause(pause)	
+//			rpcLibClient.simPause(pause)
+			// FIXME Consider the boolean parameter
+			client.simulationPause()
 		}
 	}
 	
@@ -47,8 +49,9 @@ skill KDroneSimSimulationControl implements SimulationControlCapacity {
 	
 	override simPrintLogMessage(message : String, messageParam : String, severity : Integer = 0) {
 		synchronized (this.client) {
-			// TODO
 //			rpcLibClient.simPrintLogMessage(message, messageParam, severity)
+			// FIXME Consider the message param
+			client.simulationLogMessage(message, severity)
 		}
 	}
 	
