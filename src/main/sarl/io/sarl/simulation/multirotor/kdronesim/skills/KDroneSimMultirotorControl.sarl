@@ -4,7 +4,7 @@
 package io.sarl.simulation.multirotor.kdronesim.skills
 
 import fr.utbm.ktools.geom.Vector3
-import fr.utbm.sim.comm.SimulationControlClient
+import fr.utbm.sim.comm.client.SimulationControlClient
 import io.sarl.simulation.multirotor.capacities.MultirotorSimulationControlCapacity
 import java.nio.ByteOrder
 

@@ -1,6 +1,6 @@
 package io.sarl.simulation.multirotor.kdronesim.skills
 
-import fr.utbm.sim.comm.SimulationControlClient
+import fr.utbm.sim.comm.client.SimulationControlClient
 import io.sarl.simulation.multirotor.capacities.MultirotorSimulationPerceptionCapacity
 import io.sarl.simulation.multirotor.perceptions.IKinematicsState
 import io.sarl.simulation.multirotor.perceptions.IMultirotorState
