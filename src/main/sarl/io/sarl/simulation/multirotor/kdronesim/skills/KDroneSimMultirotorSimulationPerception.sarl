@@ -6,6 +6,8 @@ import io.sarl.simulation.multirotor.perceptions.IKinematicsState
 import io.sarl.simulation.multirotor.perceptions.IMultirotorState
 import io.sarl.simulation.multirotor.perceptions.IPose
 import java.nio.ByteOrder
+import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimPose
+import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimKinematicsState
 
 skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPerceptionCapacity {
 	
@@ -28,15 +30,15 @@ skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPer
 
 	override getObjectPose(objectName : String) : IPose {
 		synchronized (this.client) {
-			// TODO
-//			return new AirSimPose(rpcLibClient.simGetObjectPose(objectName))
+			val futurePose = client.getPosition(Integer.parseInt(objectName))
+			return new KDroneSimPose(futurePose.get)
 		}
 	}
 
 	override getGroundTruthKinematics(vehicleName : String) : IKinematicsState {
 		synchronized (this.client) {
-			// TODO
-//			return new AirSimKinematicsState(rpcLibClient.simGetGroundTruthKinematics(vehicleName))
+			val futureKinematics = client.getKinematicsState(Integer.parseInt(vehicleName))
+			return new KDroneSimKinematicsState(futureKinematics.get)
 		}
 	}
 }
