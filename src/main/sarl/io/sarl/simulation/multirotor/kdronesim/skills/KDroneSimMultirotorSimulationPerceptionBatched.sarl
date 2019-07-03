@@ -12,10 +12,14 @@ import io.sarl.simulation.multirotor.perceptions.IMultirotorState
 import io.sarl.simulation.multirotor.perceptions.IPose
 import java.nio.ByteOrder
 import java.util.Map
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 skill KDroneSimMultirotorSimulationPerceptionBatched implements MultirotorSimulationPerceptionCapacity {
 	
 	uses Schedules
+	
+	val executorService = Executors.newSingleThreadScheduledExecutor()
 
 	val client : SimulationControlClient
 	
@@ -29,14 +33,22 @@ skill KDroneSimMultirotorSimulationPerceptionBatched implements MultirotorSimula
 	new(ipAddress : String, port : Integer) {
 		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
 		
-		every(50) [
-			synchronized (positions) {
+//		every(50) [
+//			synchronized (positions) {
+//				positions = client.allPositions.get
+//			}
+//			synchronized (kinematicsStates) {
+//				kinematicsStates = client.allKinematics.get
+//			}
+//		]
+		executorService.scheduleWithFixedDelay([
+			 synchronized (positions) {
 				positions = client.allPositions.get
 			}
 			synchronized (kinematicsStates) {
 				kinematicsStates = client.allKinematics.get
 			}
-		]
+		], 0, 50, TimeUnit.MILLISECONDS)
 	}
 	
 	override getMultirotorState(vehicleName : String) : IMultirotorState {

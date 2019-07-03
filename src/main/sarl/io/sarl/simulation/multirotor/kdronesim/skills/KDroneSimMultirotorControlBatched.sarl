@@ -1,0 +1,97 @@
+/** 
+ * 
+ */
+package io.sarl.simulation.multirotor.kdronesim.skills
+
+import fr.utbm.ktools.geom.Vector3
+import fr.utbm.sim.comm.client.SimulationControlClient
+import io.sarl.simulation.multirotor.capacities.MultirotorSimulationControlCapacity
+import java.nio.ByteOrder
+
+/** 
+ * AirSim implementation of the multirotor simulation control capacity
+ * @author Alexandre Lombard
+ * 
+ */
+skill KDroneSimMultirotorControlBatched implements MultirotorSimulationControlCapacity {
+
+	val client : SimulationControlClient
+
+	// TODO Allow defining this parameter
+	val defaultTimeout = 5.0f
+	
+	var count = 0
+	public var flushCount = 1
+
+	new() {
+		this("127.0.0.1", 9877)
+	}
+
+	new(ipAddress : String, port : Integer) {
+		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
+	}
+	
+	override enableControl(vehicleName : String) {
+		synchronized (this.client) {
+//			rpcLibClient.enableApiControl(true, vehicleName)
+			// Not required
+		}
+	}
+
+	override takeOff(vehicleName : String) {
+		synchronized (this.client) {
+//			rpcLibClient.takeoffAsync(defaultTimeout, vehicleName)
+			client.droneTakeOff(Integer.parseInt(vehicleName))	
+		}
+	}
+
+	override land(vehicleName : String) {
+		synchronized (this.client) {
+// 			rpcLibClient.landAsync(defaultTimeout, vehicleName)
+			client.droneLand(Integer.parseInt(vehicleName))
+		}
+	}
+
+	override rotateByYawRate(vehicleName : String, yawRate : double, duration : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.rotateByYawRateAsync(yawRate as float, duration as float, vehicleName)	
+		}
+	}
+
+	override rotateToYaw(vehicleName : String, yaw : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.rotateToYawAsync(yaw as float, defaultTimeout, 5.0f, vehicleName)	
+		}
+	}
+
+	override goHome(vehicleName : String) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.goHomeAsync(defaultTimeout, vehicleName)	
+		}
+	}
+
+	override moveToPosition(vehicleName : String, x : double, y : double, z : double, velocity : double) {
+		synchronized (this.client) {
+			// TODO
+//			rpcLibClient.moveToPositionAsync(x as float, y as float, z as float, velocity as float, defaultTimeout,
+//				DrivetrainType.MAX_DEGREE_OF_FREEDOM,
+//				new YawMode(), -1.0f, -1.0f, vehicleName)	
+		}
+	}
+
+	override moveByVelocity(vehicleName : String, vx : double, vy : double, vz : double, duration : double) {
+		synchronized (this.client) {
+//			client.delayDroneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, vz))
+//			count++
+//			
+//			if(count >= flushCount) {
+//				client.flushDelayedMessagesAll
+//				count = 0
+//			}
+			client.droneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, vz))
+		}
+	}
+}
