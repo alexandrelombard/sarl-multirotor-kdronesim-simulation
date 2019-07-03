@@ -84,7 +84,7 @@ skill KDroneSimMultirotorControlBatched implements MultirotorSimulationControlCa
 
 	override moveByVelocity(vehicleName : String, vx : double, vy : double, vz : double, duration : double) {
 		synchronized (this.client) {
-			client.delayDroneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, -vz))
+			client.delayDroneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vy, vx, -vz))
 			count++
 			
 			if(count >= flushCount) {
