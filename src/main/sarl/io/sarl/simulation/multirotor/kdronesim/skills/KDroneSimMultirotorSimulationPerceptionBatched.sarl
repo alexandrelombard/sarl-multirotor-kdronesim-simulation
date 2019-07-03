@@ -1,22 +1,27 @@
 package io.sarl.simulation.multirotor.kdronesim.skills
 
 import fr.utbm.sim.comm.client.SimulationControlClient
+import fr.utbm.sim.perceptions.KinematicsState
+import fr.utbm.sim.perceptions.Pose
+import io.sarl.core.Schedules
 import io.sarl.simulation.multirotor.capacities.MultirotorSimulationPerceptionCapacity
+import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimKinematicsState
+import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimPose
 import io.sarl.simulation.multirotor.perceptions.IKinematicsState
 import io.sarl.simulation.multirotor.perceptions.IMultirotorState
 import io.sarl.simulation.multirotor.perceptions.IPose
 import java.nio.ByteOrder
-import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimPose
-import io.sarl.simulation.multirotor.kdronesim.data.KDroneSimKinematicsState
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
+import java.util.Map
 import java.util.logging.Logger
 
 skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPerceptionCapacity {
 	
-	val LOG = Logger.getLogger(typeof(KDroneSimMultirotorSimulationPerception).simpleName)
-	
+	uses Schedules
+
 	val client : SimulationControlClient
+	
+	var positions: Map<Integer, Pose> = newHashMap
+	var kinematicsStates: Map<Integer, KinematicsState> = newHashMap
 
 	new() {
 		this("127.0.0.1", 9877)
@@ -24,6 +29,15 @@ skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPer
 
 	new(ipAddress : String, port : Integer) {
 		client = new SimulationControlClient(ipAddress, port, ByteOrder.LITTLE_ENDIAN)
+		
+		every(50) [
+			synchronized (positions) {
+				positions = client.allPositions.get
+			}
+			synchronized (kinematicsStates) {
+				kinematicsStates = client.allKinematics.get
+			}
+		]
 	}
 	
 	override getMultirotorState(vehicleName : String) : IMultirotorState {
@@ -34,30 +48,14 @@ skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPer
 	}
 
 	override getObjectPose(objectName : String) : IPose {
-		synchronized (this.client) {
-			val futurePose = client.getPosition(Integer.parseInt(objectName))
-			
-			try {
-				val pose = futurePose.get(1000, TimeUnit.MILLISECONDS)
-				return new KDroneSimPose(pose)	
-			} catch (e : TimeoutException) {
-				LOG.severe("Timeout exception while fetching position")
-				return new KDroneSimPose(null)
-			}
+		synchronized(positions) {
+			return new KDroneSimPose(positions.get(Integer.parseInt(objectName)))
 		}
 	}
 
 	override getGroundTruthKinematics(vehicleName : String) : IKinematicsState {
-		synchronized (this.client) {
-			val futureKinematics = client.getKinematicsState(Integer.parseInt(vehicleName))
-
-			try {
-				val kinematics = futureKinematics.get(1000, TimeUnit.MILLISECONDS)
-				return new KDroneSimKinematicsState(kinematics)
-			} catch (e : TimeoutException) {
-				LOG.severe("Timeout exception while fetching kinematics state")
-				return new KDroneSimKinematicsState(null)
-			}
+		synchronized (kinematicsStates) {
+			return new KDroneSimKinematicsState(kinematicsStates.get(Integer.parseInt(vehicleName)))
 		}
 	}
 }
