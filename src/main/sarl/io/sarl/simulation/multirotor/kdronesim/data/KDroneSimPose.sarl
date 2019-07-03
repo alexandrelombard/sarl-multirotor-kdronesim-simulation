@@ -22,7 +22,8 @@ class KDroneSimPose extends Object implements IPose {
 	}
 	
 	def getPosition : Vector3d {
-		return new Vector3d(this.pose.position.x, this.pose.position.y, this.pose.position.z)
+// return new Vector3d(this.pose.position.x, this.pose.position.y, this.pose.position.z)
+		return new Vector3d(this.pose.position.x, this.pose.position.y, -this.pose.position.z)
 	}
 	
 	def getOrientation : Quaternion {

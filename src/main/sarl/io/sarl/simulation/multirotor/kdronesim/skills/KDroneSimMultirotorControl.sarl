@@ -84,7 +84,7 @@ skill KDroneSimMultirotorControl implements MultirotorSimulationControlCapacity 
 //			rpcLibClient.moveByVelocityAsync(vx as float, vy as float, vz as float, duration as float,
 //				DrivetrainType.MAX_DEGREE_OF_FREEDOM, new YawMode(),
 //				vehicleName)
-			client.droneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, vz))
+			client.droneMoveByVelocity(Integer.parseInt(vehicleName), new Vector3(vx, vy, -vz))
 		}
 	}
 }
