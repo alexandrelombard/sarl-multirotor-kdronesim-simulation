@@ -12,9 +12,8 @@ import io.sarl.simulation.multirotor.perceptions.IMultirotorState
 import io.sarl.simulation.multirotor.perceptions.IPose
 import java.nio.ByteOrder
 import java.util.Map
-import java.util.logging.Logger
 
-skill KDroneSimMultirotorSimulationPerception implements MultirotorSimulationPerceptionCapacity {
+skill KDroneSimMultirotorSimulationPerceptionBatched implements MultirotorSimulationPerceptionCapacity {
 	
 	uses Schedules
 
